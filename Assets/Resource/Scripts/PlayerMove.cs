@@ -37,12 +37,12 @@ public class PlayerMove : MonoBehaviour
     {
         DoJump();
 
-        //MoveStop();
+        MoveStop();
     }
 
     private void FixedUpdate()
     {
-        //DoMove();
+        DoMove();
 
         JumpGauge();
 
@@ -92,6 +92,8 @@ public class PlayerMove : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space) && !isJumping)
         {
+            rigid.velocity = new Vector2(0, 0);
+
             if(jumpTimeLimit > jumpPower)
             {
                 jumpPower += 0.3f;
