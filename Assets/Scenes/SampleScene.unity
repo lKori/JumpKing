@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5
   minJumpPower: 1
+  jumpSpeedX: 7
   jumpTimeLimit: 10
 --- !u!70 &641767485
 CapsuleCollider2D:
@@ -336,8 +337,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 90964ddc4bec9bb47a23d9ab0672edf5, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1

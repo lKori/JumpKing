@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
     float minJumpPower;
     float jumpPower;
     [SerializeField]
+    float jumpSpeedX;
+    [SerializeField]
     float jumpTimeLimit;
 
     bool isJumping = false;
@@ -56,17 +58,28 @@ public class PlayerMove : MonoBehaviour
         {
             float h = Input.GetAxisRaw("Horizontal");
 
-            rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
+            rigid.velocity = new Vector2(maxSpeed * h, rigid.velocity.y);
 
-            // Max Speed
-            if (rigid.velocity.x > maxSpeed)
-            {
-                rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
-            }
-            else if (rigid.velocity.x < maxSpeed * (-1))
-            {
-                rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
-            }
+            //rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
+
+            //// Max Speed
+            //if (rigid.velocity.x > maxSpeed)
+            //{
+            //    rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+            //}
+            //else if (rigid.velocity.x < maxSpeed * (-1))
+            //{
+            //    rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
+            //}
+        }
+    }
+
+    private void MoveStop()
+    {
+        // Move Stop
+        if (Input.GetButtonUp("Horizontal") && !isJumping)
+        {
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
     }
 
@@ -82,7 +95,7 @@ public class PlayerMove : MonoBehaviour
 
             isJumping = true;
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            rigid.velocity = new Vector2(maxSpeed * Input.GetAxisRaw("Horizontal"), rigid.velocity.y);
+            rigid.velocity = new Vector2(jumpSpeedX * Input.GetAxisRaw("Horizontal"), rigid.velocity.y);
 
             jumpPower = 0;
         }
@@ -105,15 +118,6 @@ public class PlayerMove : MonoBehaviour
             }
 
             Debug.Log(jumpPower);
-        }
-    }
-
-    private void MoveStop()
-    {
-        // Move Stop
-        if (Input.GetButtonUp("Horizontal") && !isJumping)
-        {
-            rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
     }
 
