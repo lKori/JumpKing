@@ -304,7 +304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  jumpPower: 10
+  minJumpPower: 1
+  jumpTimeLimit: 10
 --- !u!70 &641767485
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -314,7 +315,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 641767481}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 90964ddc4bec9bb47a23d9ab0672edf5, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -337,7 +338,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 90964ddc4bec9bb47a23d9ab0672edf5, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -706,7 +707,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 1529365948}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d63633d107f76314ea647900f4e4ea43, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
