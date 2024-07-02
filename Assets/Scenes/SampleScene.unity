@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 641767486}
   - component: {fileID: 641767485}
   - component: {fileID: 641767484}
+  - component: {fileID: 641767487}
   m_Layer: 6
   m_Name: Player_1
   m_TagString: Player
@@ -357,6 +358,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &641767487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641767481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff667d97ed762b64889aaa7f9b1a3101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerSprite:
+  - {fileID: -6984743937118597169, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 8493754775679730559, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: -877152136628300093, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6483394039170471314, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6640930152269805681, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: -7564090019340763828, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 8182742167393297080, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6529434865552619341, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: -8523044851262434332, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6592467211255362602, guid: e664671891012ca48a24d33399140cdd, type: 3}
 --- !u!1 &829561915
 GameObject:
   m_ObjectHideFlags: 0
