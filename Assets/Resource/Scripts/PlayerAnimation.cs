@@ -5,34 +5,36 @@ using static PlayerMove;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    public Sprite[] PlayerSprite;
-    PlayerMove playerMove;
-    PlayerStatus playerStatus;
-    SpriteRenderer spriteRenderer;
-    float delayTime = 0.5f;
-    float coolTime;
-    int i;
+    private const float ANIM_FRAME = 0.5f;
+
+    [SerializeField]
+    public Sprite[] IdleSprite, WalkLeftSprite, WalkRightSprite, JumpSprite, SitSprite, FallSprite;
+
+    private PlayerMove playerMove;
+    private PlayerStatus playerStatus;
+    private SpriteRenderer spriteRenderer;
+
+    private int animIndex;
+    private float timer;
 
     void Start()
     {
-        coolTime = 0;
+        playerMove = this.GetComponent<PlayerMove>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        timer = 0f;
     }
 
-    void Awake()
-    {
-        playerMove = GetComponent<PlayerMove>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void FixedUpdate()
-    {
-        playerStatus = playerMove.GetPlayerStatus();
-        PlayerAnimationChange();
-    }
     // Update is called once per frame
     void Update()
     {
-        
+        timer += Time.deltaTime;
+        PlayerStatusUpdate();
+
+        if (timer >= ANIM_FRAME)
+        {
+            timer = 0;
+            PlayerAnimationChange();
+        }
     }
 
     private void PlayerAnimationChange()
@@ -40,46 +42,90 @@ public class PlayerAnimation : MonoBehaviour
         switch (playerStatus)
         {
             case PlayerStatus.Idle:
-                i = 0;
-                spriteRenderer.sprite = PlayerSprite[0];
-                Debug.Log("정지");
-                //i = 0;
-                //spriteRenderer.sprite = PlayerSprite[i];
-                //while (playerStatus == PlayerStatus.Idle)
-                //{
-                //    coolTime += Time.deltaTime;
-                //    if(coolTime > delayTime)
-                //    {
-                //        i++;
-                //        spriteRenderer.sprite = PlayerSprite[i];
-                //        if(i > 1)
-                //        {
-                //            i = 0;
-                //        }
-                //    }
-                //}
+                AnimIdle();
                 break;
             case PlayerStatus.WalkLeft:
-                i = 1;
-                spriteRenderer.sprite = PlayerSprite[1];
-                Debug.Log("왼쪽걸음");
-
+                AnimWalkLeft();
                 break;
             case PlayerStatus.WalkRight:
-                i = 4;
-                spriteRenderer.sprite = PlayerSprite[4];
-                Debug.Log("오른쪽걸음");
-
+                AnimWalkRight();
                 break;
             case PlayerStatus.Jump:
-
+                AnimJump();
                 break;
             case PlayerStatus.Sit:
-
+                AnimSit();
                 break;
             case PlayerStatus.Fall:
-
+                AnimFall();
                 break;
         }
+    }
+
+    private void PlayerStatusUpdate()
+    {
+        PlayerStatus newPlayerStatus = playerMove.GetPlayerStatus();
+
+        if (playerStatus == newPlayerStatus)
+            return;
+
+        playerStatus = newPlayerStatus;
+        animIndex = 0;
+        PlayerAnimationChange();
+    }
+
+    private void AnimIdle()
+    {
+        spriteRenderer.sprite = IdleSprite[animIndex];
+        animIndex++;
+        if (animIndex >= IdleSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Idle");
+    }
+    private void AnimWalkLeft()
+    {
+        spriteRenderer.sprite = WalkLeftSprite[animIndex];
+        animIndex++;
+        if (animIndex >= WalkLeftSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Walking left");
+    }
+    private void AnimWalkRight()
+    {
+        spriteRenderer.sprite = WalkRightSprite[animIndex];
+        animIndex++;
+        if (animIndex >= WalkRightSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Waking right");
+    }
+    private void AnimJump()
+    {
+        spriteRenderer.sprite = JumpSprite[animIndex];
+        animIndex++;
+        if (animIndex >= JumpSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Jump");
+    }
+    private void AnimSit()
+    {
+        spriteRenderer.sprite = SitSprite[animIndex];
+        animIndex++;
+        if (animIndex >= SitSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Sit");
+    }
+    private void AnimFall()
+    {
+        spriteRenderer.sprite = FallSprite[animIndex];
+        animIndex++;
+        if (animIndex >= FallSprite.Length)
+            animIndex = 0;
+
+        Debug.Log("Animation State: Fall");
     }
 }
