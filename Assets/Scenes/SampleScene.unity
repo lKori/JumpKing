@@ -370,17 +370,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff667d97ed762b64889aaa7f9b1a3101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSprite:
+  IdleSprite:
   - {fileID: -6984743937118597169, guid: e664671891012ca48a24d33399140cdd, type: 3}
   - {fileID: 8493754775679730559, guid: e664671891012ca48a24d33399140cdd, type: 3}
-  - {fileID: -877152136628300093, guid: e664671891012ca48a24d33399140cdd, type: 3}
-  - {fileID: 6483394039170471314, guid: e664671891012ca48a24d33399140cdd, type: 3}
-  - {fileID: 6640930152269805681, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  WalkLeftSprite:
   - {fileID: -7564090019340763828, guid: e664671891012ca48a24d33399140cdd, type: 3}
   - {fileID: 8182742167393297080, guid: e664671891012ca48a24d33399140cdd, type: 3}
   - {fileID: 6529434865552619341, guid: e664671891012ca48a24d33399140cdd, type: 3}
-  - {fileID: -8523044851262434332, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  WalkRightSprite:
+  - {fileID: -877152136628300093, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6483394039170471314, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  - {fileID: 6640930152269805681, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  JumpSprite:
   - {fileID: 6592467211255362602, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  SitSprite:
+  - {fileID: -8523044851262434332, guid: e664671891012ca48a24d33399140cdd, type: 3}
+  FallSprite:
+  - {fileID: -2092954941939632479, guid: e664671891012ca48a24d33399140cdd, type: 3}
 --- !u!1 &829561915
 GameObject:
   m_ObjectHideFlags: 0

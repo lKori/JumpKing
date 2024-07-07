@@ -99,7 +99,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= WalkRightSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Waking right");
+        Debug.Log("Animation State: Walking right");
     }
     private void AnimJump()
     {

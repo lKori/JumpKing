@@ -90,11 +90,17 @@ public class PlayerMove : MonoBehaviour
             // 플레이어 상태 변경
             if (h == 1)
             {
-                playerStatus = PlayerStatus.WalkRight;
+                if (playerStatus != PlayerStatus.WalkRight)
+                {
+                    playerStatus = PlayerStatus.WalkRight;
+                }
             }
-            else if(h == -1)
+            else if (h == -1)
             {
-                playerStatus = PlayerStatus.WalkLeft;
+                if (playerStatus != PlayerStatus.WalkLeft)
+                {
+                    playerStatus = PlayerStatus.WalkLeft;
+                }
             }
 
             // 입력 방향으로 이동
@@ -105,12 +111,18 @@ public class PlayerMove : MonoBehaviour
     private void MoveStop()
     {
         // 점프 상태가 아니며 좌우 키가 입력이 되지 않을 때 정지
-        if (!Input.GetButtonUp("Horizontal") && !isJumping)
+        //if (!Input.GetButtonUp("Horizontal") && !isJumping)
+        if (!Input.anyKey && !isJumping)
         {
-            // 플레이어 상태 변경
-            playerStatus = PlayerStatus.Idle;
+            //플레이어 상태 변경
+            if (playerStatus != PlayerStatus.Idle)
+            {
+                playerStatus = PlayerStatus.Idle;
+            }
 
             rigid.velocity = new Vector2(0, rigid.velocity.y);
+
+            Debug.Log("idle");
         }
     }
 
@@ -120,7 +132,10 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetButtonUp("Jump") && !isJumping)
         {
             // 플레이어 상태 변경
-            playerStatus = PlayerStatus.Jump;
+            if (playerStatus != PlayerStatus.Jump)
+            {
+                playerStatus = PlayerStatus.Jump;
+            }
 
             // 점프 높이가 최소 점프 높이보다 낮으면 최소 점프 높이로 점프 실행
             if (jumpPower < minJumpPower)
@@ -143,7 +158,10 @@ public class PlayerMove : MonoBehaviour
         // 점프 중이 아니며 점프 키를 계속 누르고 있을 경우 점프 게이지 충전
         if (Input.GetKey(KeyCode.Space) && !isJumping)
         {
-            playerStatus = PlayerStatus.Sit;
+            if(playerStatus != PlayerStatus.Sit)
+            {
+                playerStatus = PlayerStatus.Sit;
+            }
 
             // 점프 게이지 충전 중에는 이동 중지
             rigid.velocity = new Vector2(0, 0);
@@ -197,9 +215,6 @@ public class PlayerMove : MonoBehaviour
             {
                 if (rayHit.distance < 0.52f)
                 {
-                    // 플레이어 상태 변경
-                    playerStatus = PlayerStatus.Idle;
-
                     isJumping = false;
                     rigid.velocity = new Vector2(0, 0);
                 }
@@ -209,14 +224,17 @@ public class PlayerMove : MonoBehaviour
 
     private void CheckPlayerFall()
     {
-        float playerNowY = this.transform.position.y;
-
-        if (playerNowY < playerPrevY)
+        if(isJumping)
         {
-            playerStatus = PlayerStatus.Fall;
-        }
+            float playerNowY = this.transform.position.y;
 
-        playerPrevY = playerNowY;
+            if (playerNowY < playerPrevY)
+            {
+                playerStatus = PlayerStatus.Fall;
+            }
+
+            playerPrevY = playerNowY;
+        }
     }
 
     public PlayerStatus GetPlayerStatus()
