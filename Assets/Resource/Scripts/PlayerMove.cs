@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
@@ -23,7 +24,8 @@ public class PlayerMove : MonoBehaviour
 
     bool isJumping = false; // 점프 상태
 
-    float playerPrevY;
+    double playerPrevY;
+    float currentSpeedX;
 
     public enum PlayerStatus
     {
@@ -35,6 +37,7 @@ public class PlayerMove : MonoBehaviour
         Fall    // 떨어지는 중
     }
 
+    [SerializeField]
     PlayerStatus playerStatus;
 
     // Start is called before the first frame update
@@ -71,12 +74,12 @@ public class PlayerMove : MonoBehaviour
         JumpGauge();
 
         // 벽에 부딪혔을 때 튕기기
-        BouncePlayer();
+        //BouncePlayer();
 
         // 땅 위에 있는지 판별
-        GetLandingPlatform();
+        //GetLandingPlatform();
 
-        Debug.Log($"Player Status: {playerStatus}");
+        //Debug.Log($"Player Status: {playerStatus}");
     }
 
     private void DoMove()
@@ -121,8 +124,6 @@ public class PlayerMove : MonoBehaviour
             }
 
             rigid.velocity = new Vector2(0, rigid.velocity.y);
-
-            Debug.Log("idle");
         }
     }
 
@@ -147,6 +148,9 @@ public class PlayerMove : MonoBehaviour
             isJumping = true;
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             rigid.velocity = new Vector2(jumpSpeedX * Input.GetAxisRaw("Horizontal"), rigid.velocity.y);
+            currentSpeedX = rigid.velocity.x;
+
+            Debug.Log(jumpPower);
 
             // 점프 충전 게이지 초기화
             jumpPower = 0;
@@ -177,14 +181,14 @@ public class PlayerMove : MonoBehaviour
                 jumpPower = jumpTimeLimit;
             }
 
-            Debug.Log(jumpPower);
+            //Debug.Log(jumpPower);
         }
     }
 
     private void BouncePlayer()
     {
-        Debug.DrawRay(rigid.position, Vector3.right, new Color(1, 0, 0));
-        Debug.DrawRay(rigid.position, Vector3.left, new Color(-1, 0, 0));
+        //Debug.DrawRay(rigid.position, Vector3.right, new Color(1, 0, 0));
+        //Debug.DrawRay(rigid.position, Vector3.left, new Color(-1, 0, 0));
 
         float rayCastLen = 0.33f;   // Raycast 길이
         float checkDistance = 0.33f;    // Raycast 감지 거리
@@ -205,7 +209,7 @@ public class PlayerMove : MonoBehaviour
 
     private void GetLandingPlatform()
     {
-        Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 0.52f, 0));
+        Debug.DrawRay(rigid.position, Vector3.down, new Color(0, 0.5f, 0));
 
         RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 1, LayerMask.GetMask("Platform"));    // 캐릭터 아래쪽으로 바닥 감지
 
@@ -224,21 +228,55 @@ public class PlayerMove : MonoBehaviour
 
     private void CheckPlayerFall()
     {
-        if(isJumping)
+        double playerNowY = Math.Round(this.transform.position.y, 2);
+
+        if (playerNowY < playerPrevY)
         {
-            float playerNowY = this.transform.position.y;
-
-            if (playerNowY < playerPrevY)
-            {
-                playerStatus = PlayerStatus.Fall;
-            }
-
-            playerPrevY = playerNowY;
+            playerStatus = PlayerStatus.Fall;
         }
+
+        playerPrevY = playerNowY;
     }
 
     public PlayerStatus GetPlayerStatus()
     {
         return playerStatus;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log($"vector1: {collision.contacts[0].normal}");
+
+        if (collision.gameObject.tag == "Platform" && collision.contacts[0].normal.y > Math.Abs(collision.contacts[0].normal.x))    // 땅에 닿았을 때
+        {
+            isJumping = false;
+            rigid.velocity = new Vector2(0, 0);
+            currentSpeedX = 0;
+        }
+        else if(collision.gameObject.tag == "Wall" && collision.contacts[0].normal.y < Math.Abs(collision.contacts[0].normal.x))    // 벽에 부딪혔을 때
+        {
+            rigid.velocity = new Vector2(-currentSpeedX, rigid.velocity.y);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (rigid.velocity.y < 0)
+        {
+            if (collision.gameObject.tag == "Platform")
+            {
+                isJumping = false;
+                rigid.velocity = new Vector2(0, 0);
+                currentSpeedX = 0;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "EndPoint")
+        {
+            SceneManager.LoadScene("EndingTitle");
+        }
     }
 }

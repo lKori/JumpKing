@@ -26,6 +26,6 @@ public class GameStartButton : MonoBehaviour
     public void OnClickStartButton()
     {
         Debug.Log("click start button");
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GameScene");
     }
 }

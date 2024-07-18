@@ -81,7 +81,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= IdleSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Idle");
+        //Debug.Log("Animation State: Idle");
     }
     private void AnimWalkLeft()
     {
@@ -90,7 +90,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= WalkLeftSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Walking left");
+        //Debug.Log("Animation State: Walking left");
     }
     private void AnimWalkRight()
     {
@@ -99,7 +99,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= WalkRightSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Walking right");
+        //Debug.Log("Animation State: Walking right");
     }
     private void AnimJump()
     {
@@ -108,7 +108,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= JumpSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Jump");
+        //Debug.Log("Animation State: Jump");
     }
     private void AnimSit()
     {
@@ -117,7 +117,7 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= SitSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Sit");
+        //Debug.Log("Animation State: Sit");
     }
     private void AnimFall()
     {
@@ -126,6 +126,6 @@ public class PlayerAnimation : MonoBehaviour
         if (animIndex >= FallSprite.Length)
             animIndex = 0;
 
-        Debug.Log("Animation State: Fall");
+        //Debug.Log("Animation State: Fall");
     }
 }
