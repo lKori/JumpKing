@@ -83,6 +83,7 @@ public class PlayerAnimation : MonoBehaviour
 
         //Debug.Log("Animation State: Idle");
     }
+
     private void AnimWalkLeft()
     {
         spriteRenderer.sprite = WalkLeftSprite[animIndex];
@@ -92,6 +93,7 @@ public class PlayerAnimation : MonoBehaviour
 
         //Debug.Log("Animation State: Walking left");
     }
+
     private void AnimWalkRight()
     {
         spriteRenderer.sprite = WalkRightSprite[animIndex];
@@ -101,6 +103,7 @@ public class PlayerAnimation : MonoBehaviour
 
         //Debug.Log("Animation State: Walking right");
     }
+
     private void AnimJump()
     {
         spriteRenderer.sprite = JumpSprite[animIndex];
@@ -110,6 +113,7 @@ public class PlayerAnimation : MonoBehaviour
 
         //Debug.Log("Animation State: Jump");
     }
+
     private void AnimSit()
     {
         spriteRenderer.sprite = SitSprite[animIndex];
@@ -119,6 +123,7 @@ public class PlayerAnimation : MonoBehaviour
 
         //Debug.Log("Animation State: Sit");
     }
+
     private void AnimFall()
     {
         spriteRenderer.sprite = FallSprite[animIndex];
