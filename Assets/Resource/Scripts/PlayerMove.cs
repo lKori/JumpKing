@@ -22,10 +22,13 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     float jumpTimeLimit;    // 점프 게이지 최대 시간
 
+    [SerializeField]
     bool isJumping = false; // 점프 상태
+    [SerializeField]
+    bool onLanding = true;
 
     double playerPrevY;
-    float currentSpeedX;
+    public float currentSpeedX;
 
     public enum PlayerStatus
     {
@@ -85,7 +88,7 @@ public class PlayerMove : MonoBehaviour
     private void DoMove()
     {
         // 점프 상태가 아니며 점프 키 입력 중이 아닐 때 이동 가능
-        if (!Input.GetKey(KeyCode.Space) && !isJumping)
+        if (onLanding && !Input.GetKey(KeyCode.Space) && !isJumping)
         {
             // 입력 방향이 왼쪽인지 오른쪽인지
             float h = Input.GetAxisRaw("Horizontal");
@@ -115,7 +118,7 @@ public class PlayerMove : MonoBehaviour
     {
         // 점프 상태가 아니며 좌우 키가 입력이 되지 않을 때 정지
         //if (!Input.GetButtonUp("Horizontal") && !isJumping)
-        if (!Input.anyKey && !isJumping)
+        if (onLanding && !Input.anyKey && !isJumping)
         {
             //플레이어 상태 변경
             if (playerStatus != PlayerStatus.Idle)
@@ -130,7 +133,7 @@ public class PlayerMove : MonoBehaviour
     private void DoJump()
     {
         // 점프 상태가 아니며 점프 키를 뗐을 때 점프 실행
-        if (Input.GetButtonUp("Jump") && !isJumping)
+        if (onLanding && Input.GetButtonUp("Jump") && !isJumping)
         {
             // 플레이어 상태 변경
             if (playerStatus != PlayerStatus.Jump)
@@ -145,6 +148,7 @@ public class PlayerMove : MonoBehaviour
             }
 
             // 점프 실행
+            onLanding = false;
             isJumping = true;
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             rigid.velocity = new Vector2(jumpSpeedX * Input.GetAxisRaw("Horizontal"), rigid.velocity.y);
@@ -160,7 +164,7 @@ public class PlayerMove : MonoBehaviour
     private void JumpGauge()
     {
         // 점프 중이 아니며 점프 키를 계속 누르고 있을 경우 점프 게이지 충전
-        if (Input.GetKey(KeyCode.Space) && !isJumping)
+        if (onLanding && Input.GetKey(KeyCode.Space) && !isJumping)
         {
             if(playerStatus != PlayerStatus.Sit)
             {
@@ -233,6 +237,8 @@ public class PlayerMove : MonoBehaviour
         if (playerNowY < playerPrevY)
         {
             playerStatus = PlayerStatus.Fall;
+
+            onLanding = false;
         }
 
         playerPrevY = playerNowY;
@@ -245,17 +251,14 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"vector1: {collision.contacts[0].normal}");
+        Debug.Log($"vector: {collision.contacts[0].normal}");
 
         if (collision.gameObject.tag == "Platform" && collision.contacts[0].normal.y > Math.Abs(collision.contacts[0].normal.x))    // 땅에 닿았을 때
         {
+            onLanding = true;
             isJumping = false;
             rigid.velocity = new Vector2(0, 0);
             currentSpeedX = 0;
-        }
-        else if(collision.gameObject.tag == "Wall" && collision.contacts[0].normal.y < Math.Abs(collision.contacts[0].normal.x))    // 벽에 부딪혔을 때
-        {
-            rigid.velocity = new Vector2(-currentSpeedX, rigid.velocity.y);
         }
     }
 
@@ -263,8 +266,9 @@ public class PlayerMove : MonoBehaviour
     {
         if (rigid.velocity.y < 0)
         {
-            if (collision.gameObject.tag == "Platform")
+            if (collision.gameObject.tag == "Platform" && Math.Abs(collision.contacts[0].normal.y) > Math.Abs(collision.contacts[0].normal.x))
             {
+                onLanding = true;
                 isJumping = false;
                 rigid.velocity = new Vector2(0, 0);
                 currentSpeedX = 0;
